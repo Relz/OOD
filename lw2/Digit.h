@@ -1,6 +1,7 @@
 #ifndef LW2_DIGIT_H
 #define LW2_DIGIT_H
 
+#include <limits>
 #include <unordered_map>
 
 using namespace std;
@@ -25,27 +26,47 @@ class DigitExtensions
 public:
 	static Digit CreateFromCharacter(char character)
 	{
-		if (characterToDigit.find(character) == characterToDigit.end())
+		if (m_characterToDigit.find(character) == m_characterToDigit.end())
 		{
 			return Digit::NONE;
 		}
 		else
 		{
-			return characterToDigit.at(character);
+			return m_characterToDigit.at(character);
 		}
 	}
 
 	static char ToCharacter(Digit digit)
 	{
-		return digitToCharacter.at(digit);
+		return m_digitToCharacter.at(digit);
+	}
+
+	static Digit Accumulate(Digit a, Digit b, Digit& carried)
+	{
+		unsigned int sum = ToUInt(a) + ToUInt(b) + ToUInt(carried);
+		carried = CreateFromUInt(sum / 10);
+		return CreateFromUInt(sum % 10);
 	}
 
 private:
-	static const unordered_map<char, Digit> characterToDigit;
-	static const unordered_map<Digit, char> digitToCharacter;
+	static unsigned int ToUInt(Digit digit)
+	{
+		return m_digitToUInt.at(digit);
+	}
+
+	static Digit CreateFromUInt(unsigned int uInt)
+	{
+		return m_uIntToDigit.at(uInt);
+	}
+
+private:
+	static const unordered_map<char, Digit> m_characterToDigit;
+	static const unordered_map<Digit, char> m_digitToCharacter;
+	static const unordered_map<Digit, unsigned int> m_digitToUInt;
+	static const unordered_map<unsigned int, Digit> m_uIntToDigit;
 };
 
-const unordered_map<char, Digit> DigitExtensions::characterToDigit = {
+const unordered_map<char, Digit> DigitExtensions::m_characterToDigit = {
 	{ '0', Digit::ZERO },
 	{ '1', Digit::ONE },
 	{ '2', Digit::TWO },
@@ -58,7 +79,7 @@ const unordered_map<char, Digit> DigitExtensions::characterToDigit = {
 	{ '9', Digit::NINE }
 };
 
-const unordered_map<Digit, char> DigitExtensions::digitToCharacter = {
+const unordered_map<Digit, char> DigitExtensions::m_digitToCharacter = {
 	{ Digit::ZERO, '0' },
 	{ Digit::ONE, '1' },
 	{ Digit::TWO, '2' },
@@ -70,6 +91,34 @@ const unordered_map<Digit, char> DigitExtensions::digitToCharacter = {
 	{ Digit::EIGHT, '8' },
 	{ Digit::NINE, '9' },
 	{ Digit::NONE, ' ' }
+};
+
+const unordered_map<Digit, unsigned int> DigitExtensions::m_digitToUInt = {
+	{ Digit::ZERO, 0 },
+	{ Digit::ONE, 1 },
+	{ Digit::TWO, 2 },
+	{ Digit::THREE, 3 },
+	{ Digit::FOUR, 4 },
+	{ Digit::FIVE, 5 },
+	{ Digit::SIX, 6 },
+	{ Digit::SEVEN, 7 },
+	{ Digit::EIGHT, 8 },
+	{ Digit::NINE, 9 },
+	{ Digit::NONE, numeric_limits<unsigned int>::max() },
+};
+
+const unordered_map<unsigned int, Digit> DigitExtensions::m_uIntToDigit = {
+	{ 0, Digit::ZERO },
+	{ 1, Digit::ONE },
+	{ 2, Digit::TWO },
+	{ 3, Digit::THREE },
+	{ 4, Digit::FOUR },
+	{ 5, Digit::FIVE },
+	{ 6, Digit::SIX },
+	{ 7, Digit::SEVEN },
+	{ 8, Digit::EIGHT },
+	{ 9, Digit::NINE },
+	{ numeric_limits<unsigned int>::max(), Digit::NONE },
 };
 
 #endif //LW2_DIGIT_H

@@ -3,4 +3,4 @@ project(lw2)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(lw2 main.cpp  Digit.h)
+add_executable(lw2 main.cpp  Digit.h LongInteger.h)
