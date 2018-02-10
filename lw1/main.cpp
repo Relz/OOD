@@ -1,3 +1,5 @@
+#include "IShape.h"
+#include "ShapeCreator.h"
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -5,21 +7,19 @@
 
 using namespace std;
 
-const string INPUT_FILE_NAME = "input.txt";
-
 int main()
 {
-	ifstream inputFile(INPUT_FILE_NAME);
+	ifstream inputFile("input.txt");
 
 	string line;
 	while (getline(inputFile, line))
 	{
-		stringstream ss(line);
-		string shapeName;
-		ss >> shapeName;
-		shapeName.pop_back();
-
-		cout << shapeName << "\n";
+		stringstream stringStream(line);
+		unique_ptr<IShape> shape(ShapeCreator::Create(stringStream));
+		if (shape)
+		{
+			cout << shape->ToString() << "\n";
+		}
 	}
 
 	return EXIT_SUCCESS;

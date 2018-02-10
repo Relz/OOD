@@ -3,4 +3,4 @@ project(lw1)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(lw1 main.cpp IShape.h Shape.h Point.h Rectangle.h Triangle.h Parser.h Circle.h)
+add_executable(lw1 main.cpp IShape.h Shape.h Point.h Rectangle.h Triangle.h Parser.h Circle.h ShapeCreator.h)
