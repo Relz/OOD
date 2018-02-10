@@ -11,8 +11,14 @@ class LongInteger
 {
 public:
 	explicit LongInteger(vector<Digit> const& digits = { Digit::ZERO })
-		: m_digits(digits)
 	{
+		for (Digit digit : digits)
+		{
+			if (digit != Digit::NONE)
+			{
+				m_digits.emplace_back(digit);
+			}
+		}
 	}
 
 	friend ostream& operator<<(ostream& os, LongInteger const& longInteger)

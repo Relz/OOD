@@ -16,7 +16,8 @@ enum class Digit
 	SIX,
 	SEVEN,
 	EIGHT,
-	NINE
+	NINE,
+	NONE
 };
 
 class DigitExtensions
@@ -26,7 +27,7 @@ public:
 	{
 		if (characterToDigit.find(character) == characterToDigit.end())
 		{
-			return Digit::ZERO;
+			return Digit::NONE;
 		}
 		else
 		{
@@ -67,7 +68,8 @@ const unordered_map<Digit, char> DigitExtensions::digitToCharacter = {
 	{ Digit::SIX, '6' },
 	{ Digit::SEVEN, '7' },
 	{ Digit::EIGHT, '8' },
-	{ Digit::NINE, '9' }
+	{ Digit::NINE, '9' },
+	{ Digit::NONE, ' ' }
 };
 
 #endif //LW2_DIGIT_H

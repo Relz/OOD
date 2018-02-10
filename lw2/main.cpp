@@ -12,7 +12,7 @@ int main()
 	while (getline(inputFile, line))
 	{
 		smatch matches;
-		regex_search(line, matches, regex(R"(([0-9]+)\s([-+*\/])\s([0-9]+))"));
+		regex_search(line, matches, regex(R"(([0-9\s]+)\s([-+*\/])\s([0-9\s]+))"));
 		LongInteger operand1 = LongInteger::CreateFromString(matches.str(1));
 		char operation = matches.str(2).at(0);
 		LongInteger operand2 = LongInteger::CreateFromString(matches.str(3));
