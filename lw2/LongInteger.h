@@ -21,6 +21,42 @@ public:
 		}
 	}
 
+	LongInteger(LongInteger const& right)
+	{
+		if (this != &right)
+		{
+			m_digits = right.m_digits;
+		}
+	}
+
+	LongInteger(LongInteger&& right)
+	{
+		if (this != &right)
+		{
+			m_digits = move(right.m_digits);
+		}
+	}
+
+	LongInteger& operator=(LongInteger const& right)
+	{
+		if (this == &right)
+		{
+			return *this;
+		}
+		m_digits = right.m_digits;
+		return *this;
+	}
+
+	LongInteger& operator=(LongInteger&& right)
+	{
+		if (this == &right)
+		{
+			return *this;
+		}
+		m_digits = move(right.m_digits);
+		return *this;
+	}
+
 	friend ostream& operator<<(ostream& os, LongInteger const& longInteger)
 	{
 		for (auto it = longInteger.m_digits.rbegin(); it != longInteger.m_digits.rend(); ++it)
@@ -80,25 +116,15 @@ public:
 		return left != right && !(left < right);
 	}
 
-	static LongInteger CreateFromString(string const& str)
-	{
-		vector<Digit> digits;
-		for (char ch : str)
-		{
-			digits.emplace_back(DigitExtensions::CreateFromCharacter(ch));
-		}
-		return std::move(LongInteger(digits));
-	}
-
-	static LongInteger Accumulate(LongInteger const& a, LongInteger const& b)
+	friend const LongInteger operator+(LongInteger const& left, LongInteger const& right)
 	{
 		LongInteger result;
-		result.m_digits.resize(max(a.m_digits.size(), b.m_digits.size()));
+		result.m_digits.resize(max(left.m_digits.size(), right.m_digits.size()));
 
 		Digit carried = Digit::ZERO;
 		for (size_t i = 0; i < result.m_digits.size(); ++i)
 		{
-			result.Set(i, DigitExtensions::Accumulate(a.Get(i), b.Get(i), carried));
+			result.Set(i, DigitExtensions::Accumulate(left.Get(i), right.Get(i), carried));
 		}
 		if (carried != Digit::ZERO)
 		{
@@ -107,28 +133,28 @@ public:
 		return result;
 	}
 
-	static LongInteger Subtract(LongInteger const& a, LongInteger const& b)
+	friend const LongInteger operator-(LongInteger const& left, LongInteger const& right)
 	{
-		LongInteger result = a;
+		LongInteger result = left;
 
 		Digit borrowed = Digit::ZERO;
 		for (size_t i = 0; i < result.m_digits.size(); ++i)
 		{
-			result.Set(i, DigitExtensions::Subtract(a.Get(i), b.Get(i), borrowed));
+			result.Set(i, DigitExtensions::Subtract(left.Get(i), right.Get(i), borrowed));
 		}
 		RemoveExtraZeros(result);
 		return result;
 	}
 
-	static LongInteger Multiply(LongInteger const& a, LongInteger const& b)
+	friend const LongInteger operator*(LongInteger const& left, LongInteger const& right)
 	{
-		vector<LongInteger> summands(b.m_digits.size());
-		for (size_t i = 0; i < b.m_digits.size(); ++i)
+		vector<LongInteger> summands(right.m_digits.size());
+		for (size_t i = 0; i < right.m_digits.size(); ++i)
 		{
 			Digit carried = Digit::ZERO;
-			for (size_t j = 0; j < a.m_digits.size(); ++j)
+			for (size_t j = 0; j < left.m_digits.size(); ++j)
 			{
-				summands.at(i).Set(j, DigitExtensions::Multiply(a.Get(j), b.Get(i), carried));
+				summands.at(i).Set(j, DigitExtensions::Multiply(left.Get(j), right.Get(i), carried));
 			}
 			if (carried != Digit::ZERO)
 			{
@@ -143,30 +169,40 @@ public:
 		LongInteger result;
 		for (LongInteger const& summand : summands)
 		{
-			result = move(Accumulate(result, summand));
+			result = result + summand;
 		}
 		return result;
 	}
 
-	static LongInteger Divide(LongInteger const& a, LongInteger const& b)
+	friend const LongInteger operator/(LongInteger const& left, LongInteger const& right)
 	{
 		LongInteger result;
 		LongInteger tmp2;
-		while (tmp2 != a)
+		while (tmp2 != left)
 		{
-			LongInteger multiplier({Digit::ONE});
-			LongInteger tmp = b;
+			LongInteger multiplier({ Digit::ONE });
+			LongInteger tmp = right;
 			LongInteger previousMultiplier = multiplier;
-			while (Accumulate(tmp2, tmp) < a)
+			while (tmp2 + tmp < left)
 			{
 				previousMultiplier = multiplier;
-				multiplier = move(Accumulate(multiplier, multiplier));
-				tmp = move(Multiply(b, multiplier));
+				multiplier = multiplier + multiplier;
+				tmp = right * multiplier;
 			}
-			tmp2 = move(Accumulate(tmp2, Multiply(b, previousMultiplier)));
-			result = Accumulate(result, previousMultiplier);
+			tmp2 = tmp2 + right * previousMultiplier;
+			result = result + previousMultiplier;
 		}
 		return result;
+	}
+
+	static LongInteger CreateFromString(string const& str)
+	{
+		vector<Digit> digits;
+		for (char ch : str)
+		{
+			digits.emplace_back(DigitExtensions::CreateFromCharacter(ch));
+		}
+		return move(LongInteger(digits));
 	}
 
 private:

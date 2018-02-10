@@ -6,10 +6,10 @@
 using namespace std;
 
 unordered_map<char, function<LongInteger(LongInteger const&, LongInteger const&)>> operationFunction = {
-	{ '+', LongInteger::Accumulate },
-	{ '-', LongInteger::Subtract },
-	{ '*', LongInteger::Multiply },
-	{ '/', LongInteger::Divide }
+	{ '+', [](LongInteger const& left, LongInteger const& right) { return left + right; } },
+	{ '-', [](LongInteger const& left, LongInteger const& right) { return left - right; } },
+	{ '*', [](LongInteger const& left, LongInteger const& right) { return left * right; } },
+	{ '/', [](LongInteger const& left, LongInteger const& right) { return left / right; } }
 };
 
 int main()
