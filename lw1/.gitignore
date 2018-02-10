@@ -1,0 +1,15 @@
+# IDEA files
+.idea/codeStyles
+.idea/markdown-navigator
+.idea/vcs.xml
+.idea/workspace.xml
+
+# Build CMake files
+cmake-build-[(debug)(release)]/CMakeFiles
+cmake-build-[(debug)(release)]/cmake_install.cmake
+cmake-build-[(debug)(release)]/CMakeCache.txt
+cmake-build-[(debug)(release)]/Makefile
+
+# Build files
+cmake-build-[(debug)(release)]/*.exe
+cmake-build-[(debug)(release)]/*.cbp
