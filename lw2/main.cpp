@@ -5,16 +5,11 @@
 
 using namespace std;
 
-LongInteger Accumulate(LongInteger const& a, LongInteger const& b);
-LongInteger Subtract(LongInteger const& a, LongInteger const& b);
-LongInteger Multiply(LongInteger const& a, LongInteger const& b);
-LongInteger Divide(LongInteger const& a, LongInteger const& b);
-
 unordered_map<char, function<LongInteger(LongInteger const&, LongInteger const&)>> operationFunction = {
-	{ '+', Accumulate },
-	{ '-', Subtract },
-	{ '*', Multiply },
-	{ '/', Divide }
+	{ '+', LongInteger::Accumulate },
+	{ '-', LongInteger::Subtract },
+	{ '*', LongInteger::Multiply },
+	{ '/', LongInteger::Divide }
 };
 
 int main()
@@ -32,32 +27,4 @@ int main()
 		cout << operand1 << " " << operation << " " << operand2 << " = " << operationFunction.at(operation)(operand1, operand2) << "\n";
 	}
 	return EXIT_SUCCESS;
-}
-
-LongInteger Accumulate(LongInteger const& a, LongInteger const& b)
-{
-	LongInteger result = a;
-
-	return result;
-}
-
-LongInteger Subtract(LongInteger const& a, LongInteger const& b)
-{
-	LongInteger result = a;
-
-	return result;
-}
-
-LongInteger Multiply(LongInteger const& a, LongInteger const& b)
-{
-	LongInteger result = a;
-
-	return result;
-}
-
-LongInteger Divide(LongInteger const& a, LongInteger const& b)
-{
-	LongInteger result = a;
-
-	return result;
 }
