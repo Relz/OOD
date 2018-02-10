@@ -60,6 +60,13 @@ public:
 		return CreateFromInt(difference);
 	}
 
+	static Digit Multiply(Digit a, Digit b, Digit& carried)
+	{
+		int multiple = ToInt(a) * ToInt(b) + ToInt(carried);
+		carried = CreateFromInt(multiple / 10);
+		return CreateFromInt(multiple % 10);
+	}
+
 private:
 	static int ToInt(Digit digit)
 	{

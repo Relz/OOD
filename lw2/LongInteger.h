@@ -16,7 +16,7 @@ public:
 		{
 			if (digit != Digit::NONE)
 			{
-				m_digits.insert(m_digits.begin(), digit);
+				m_digits.emplace(m_digits.begin(), digit);
 			}
 		}
 	}
@@ -72,9 +72,29 @@ public:
 
 	static LongInteger Multiply(LongInteger const& a, LongInteger const& b)
 	{
-		LongInteger result;
-		result.m_digits.resize(max(a.m_digits.size(), b.m_digits.size()));
+		vector<LongInteger> summands(b.m_digits.size());
+		for (size_t i = 0; i < b.m_digits.size(); ++i)
+		{
+			Digit carried = Digit::ZERO;
+			for (size_t j = 0; j < a.m_digits.size(); ++j)
+			{
+				summands.at(i).Set(j, DigitExtensions::Multiply(a.Get(j), b.Get(i), carried));
+			}
+			if (carried != Digit::ZERO)
+			{
+				summands.at(i).Set(summands.at(i).m_digits.size(), carried);
+			}
+			for (size_t k = 0; k < i; ++k)
+			{
+				summands.at(i).m_digits.emplace(summands.at(i).m_digits.begin(), Digit::ZERO);
+			}
+		}
 
+		LongInteger result;
+		for (LongInteger const& summand : summands)
+		{
+			result = Accumulate(result, summand);
+		}
 		return result;
 	}
 
