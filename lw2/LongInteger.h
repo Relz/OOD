@@ -59,9 +59,14 @@ public:
 
 	static LongInteger Subtract(LongInteger const& a, LongInteger const& b)
 	{
-		LongInteger result;
-		result.m_digits.resize(max(a.m_digits.size(), b.m_digits.size()));
+		LongInteger result = a;
 
+		Digit borrowed = Digit::ZERO;
+		for (size_t i = 0; i < result.m_digits.size(); ++i)
+		{
+			result.Set(i, DigitExtensions::Subtract(a.Get(i), b.Get(i), borrowed));
+		}
+		RemoveExtraZeros(result);
 		return result;
 	}
 
@@ -96,6 +101,20 @@ private:
 			m_digits.resize(index + 1);
 		}
 		m_digits[index] = digit;
+	}
+
+	static void RemoveExtraZeros(LongInteger& longInteger)
+	{
+		size_t actualSize = longInteger.m_digits.size();
+		for (size_t i = longInteger.m_digits.size() - 1; i != SIZE_MAX; --i)
+		{
+			if (longInteger.m_digits.at(i) != Digit::ZERO)
+			{
+				actualSize = i + 1;
+				break;
+			}
+		}
+		longInteger.m_digits.resize(actualSize);
 	}
 };
 

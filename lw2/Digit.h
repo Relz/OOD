@@ -43,18 +43,30 @@ public:
 
 	static Digit Accumulate(Digit a, Digit b, Digit& carried)
 	{
-		unsigned int sum = ToUInt(a) + ToUInt(b) + ToUInt(carried);
-		carried = CreateFromUInt(sum / 10);
-		return CreateFromUInt(sum % 10);
+		int sum = ToInt(a) + ToInt(b) + ToInt(carried);
+		carried = CreateFromInt(sum / 10);
+		return CreateFromInt(sum % 10);
+	}
+
+	static Digit Subtract(Digit a, Digit b, Digit& borrowed)
+	{
+		int difference = ToInt(a) - ToInt(b) - ToInt(borrowed);
+		if (difference < 0)
+		{
+			borrowed = Digit::ONE;
+			return CreateFromInt(difference + 10);
+		}
+		borrowed = Digit::ZERO;
+		return CreateFromInt(difference);
 	}
 
 private:
-	static unsigned int ToUInt(Digit digit)
+	static int ToInt(Digit digit)
 	{
 		return m_digitToUInt.at(digit);
 	}
 
-	static Digit CreateFromUInt(unsigned int uInt)
+	static Digit CreateFromInt(int uInt)
 	{
 		return m_uIntToDigit.at(uInt);
 	}
@@ -62,8 +74,8 @@ private:
 private:
 	static const unordered_map<char, Digit> m_characterToDigit;
 	static const unordered_map<Digit, char> m_digitToCharacter;
-	static const unordered_map<Digit, unsigned int> m_digitToUInt;
-	static const unordered_map<unsigned int, Digit> m_uIntToDigit;
+	static const unordered_map<Digit, int> m_digitToUInt;
+	static const unordered_map<int, Digit> m_uIntToDigit;
 };
 
 const unordered_map<char, Digit> DigitExtensions::m_characterToDigit = {
@@ -93,7 +105,7 @@ const unordered_map<Digit, char> DigitExtensions::m_digitToCharacter = {
 	{ Digit::NONE, ' ' }
 };
 
-const unordered_map<Digit, unsigned int> DigitExtensions::m_digitToUInt = {
+const unordered_map<Digit, int> DigitExtensions::m_digitToUInt = {
 	{ Digit::ZERO, 0 },
 	{ Digit::ONE, 1 },
 	{ Digit::TWO, 2 },
@@ -104,10 +116,10 @@ const unordered_map<Digit, unsigned int> DigitExtensions::m_digitToUInt = {
 	{ Digit::SEVEN, 7 },
 	{ Digit::EIGHT, 8 },
 	{ Digit::NINE, 9 },
-	{ Digit::NONE, numeric_limits<unsigned int>::max() },
+	{ Digit::NONE, numeric_limits<int>::max() },
 };
 
-const unordered_map<unsigned int, Digit> DigitExtensions::m_uIntToDigit = {
+const unordered_map<int, Digit> DigitExtensions::m_uIntToDigit = {
 	{ 0, Digit::ZERO },
 	{ 1, Digit::ONE },
 	{ 2, Digit::TWO },
@@ -118,7 +130,7 @@ const unordered_map<unsigned int, Digit> DigitExtensions::m_uIntToDigit = {
 	{ 7, Digit::SEVEN },
 	{ 8, Digit::EIGHT },
 	{ 9, Digit::NINE },
-	{ numeric_limits<unsigned int>::max(), Digit::NONE },
+	{ numeric_limits<int>::max(), Digit::NONE },
 };
 
 #endif //LW2_DIGIT_H
