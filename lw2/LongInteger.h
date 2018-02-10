@@ -30,6 +30,56 @@ public:
 		return os;
 	}
 
+	friend bool operator==(LongInteger const& left, LongInteger const& right)
+	{
+		LongInteger a = left;
+		LongInteger b = right;
+		RemoveExtraZeros(a);
+		RemoveExtraZeros(b);
+		if (a.m_digits.size() != b.m_digits.size())
+		{
+			return false;
+		}
+		for (size_t i = a.m_digits.size() - 1; i != SIZE_MAX; --i)
+		{
+			if (a.Get(i) != b.Get(i))
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
+	friend bool operator!=(LongInteger const& left, LongInteger const& right)
+	{
+		return !(left == right);
+	}
+
+	friend bool operator<(LongInteger const& left, LongInteger const& right)
+	{
+		LongInteger a = left;
+		LongInteger b = right;
+		RemoveExtraZeros(a);
+		RemoveExtraZeros(b);
+		if (a.m_digits.size() != b.m_digits.size())
+		{
+			return a.m_digits.size() < b.m_digits.size();
+		}
+		for (size_t i = a.m_digits.size() - 1; i != SIZE_MAX; --i)
+		{
+			if (a.Get(i) != b.Get(i))
+			{
+				return a.Get(i) < b.Get(i);
+			}
+		}
+		return false;
+	}
+
+	friend bool operator>(LongInteger const& left, LongInteger const& right)
+	{
+		return left != right && !(left < right);
+	}
+
 	static LongInteger CreateFromString(string const& str)
 	{
 		vector<Digit> digits;
@@ -93,7 +143,7 @@ public:
 		LongInteger result;
 		for (LongInteger const& summand : summands)
 		{
-			result = Accumulate(result, summand);
+			result = move(Accumulate(result, summand));
 		}
 		return result;
 	}
@@ -101,8 +151,21 @@ public:
 	static LongInteger Divide(LongInteger const& a, LongInteger const& b)
 	{
 		LongInteger result;
-		result.m_digits.resize(max(a.m_digits.size(), b.m_digits.size()));
-
+		LongInteger tmp2;
+		while (tmp2 != a)
+		{
+			LongInteger multiplier({Digit::ONE});
+			LongInteger tmp = b;
+			LongInteger previousMultiplier = multiplier;
+			while (Accumulate(tmp2, tmp) < a)
+			{
+				previousMultiplier = multiplier;
+				multiplier = move(Accumulate(multiplier, multiplier));
+				tmp = move(Multiply(b, multiplier));
+			}
+			tmp2 = move(Accumulate(tmp2, Multiply(b, previousMultiplier)));
+			result = Accumulate(result, previousMultiplier);
+		}
 		return result;
 	}
 
