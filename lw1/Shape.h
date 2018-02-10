@@ -14,9 +14,9 @@ public:
 	{
 	}
 
-	unsigned int GetArea() const override = 0;
+	double GetArea() const override = 0;
 
-	unsigned int GetPerimeter() const override = 0;
+	double GetPerimeter() const override = 0;
 
 	std::string ToString() const final
 	{
