@@ -4,8 +4,8 @@
 #include "Parser.h"
 #include "Point.h"
 #include "Shape.h"
+#include <cmath>
 #include <string>
-#include <math.h>
 
 using namespace std;
 

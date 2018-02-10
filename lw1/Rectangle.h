@@ -1,11 +1,9 @@
 #ifndef LW1_RECTANGLE_H
 #define LW1_RECTANGLE_H
 
+#include "Parser.h"
 #include "Point.h"
 #include "Shape.h"
-#include "Parser.h"
-#include <iostream>
-#include <memory>
 #include <string>
 
 using namespace std;
