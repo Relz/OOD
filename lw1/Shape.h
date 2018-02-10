@@ -14,9 +14,9 @@ public:
 	{
 	}
 
-	float GetArea() const override = 0;
+	unsigned int GetArea() const override = 0;
 
-	float GetPerimeter() const override = 0;
+	unsigned int GetPerimeter() const override = 0;
 
 	std::string ToString() const final
 	{
