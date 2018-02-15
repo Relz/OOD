@@ -29,7 +29,7 @@ public:
 		}
 	}
 
-	LongInteger(LongInteger&& right)
+	LongInteger(LongInteger&& right) noexcept
 	{
 		if (this != &right)
 		{
@@ -47,7 +47,7 @@ public:
 		return *this;
 	}
 
-	LongInteger& operator=(LongInteger&& right)
+	LongInteger& operator=(LongInteger&& right) noexcept
 	{
 		if (this == &right)
 		{
@@ -176,6 +176,10 @@ public:
 
 	friend const LongInteger operator/(LongInteger const& left, LongInteger const& right)
 	{
+		if (right == LongInteger())
+		{
+			throw overflow_error("Division by zero");
+		}
 		LongInteger result;
 		LongInteger tmp2;
 		while (tmp2 != left)
