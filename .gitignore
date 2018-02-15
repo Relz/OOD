@@ -25,3 +25,6 @@
 **/cmake-build-release/*.exe
 **/cmake-build-release/*.exe.stackdump
 **/cmake-build-release/*.cbp
+
+# Google tests library
+**/googletest
