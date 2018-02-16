@@ -10,4 +10,4 @@ ADD_SUBDIRECTORY(googletest/googletest)
 ADD_SUBDIRECTORY(LongInteger)
 ADD_SUBDIRECTORY(LongIntegerTest)
 
-ADD_EXECUTABLE(lw2 main.cpp)
+ADD_EXECUTABLE(lw2 main.cpp LongInteger/LongInteger.h LongInteger/Digit.h LongInteger/DigitExtensions.h LongInteger/DigitExtensions.cpp)

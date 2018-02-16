@@ -2,6 +2,7 @@
 #define LW2_LONGINTEGER_H
 
 #include "Digit.h"
+#include "DigitExtensions.h"
 #include <iostream>
 #include <vector>
 
