@@ -1,6 +1,6 @@
-cmake_minimum_required(VERSION 3.9)
-project(lw1)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.9)
+PROJECT(lw1)
 
-set(CMAKE_CXX_STANDARD 11)
+SET(CMAKE_CXX_STANDARD 11)
 
-add_executable(lw1 main.cpp IShape.h Shape.h Point.h Rectangle.h Triangle.h Parser.h Circle.h ShapeCreator.h)
+ADD_EXECUTABLE(lw1 main.cpp IShape.h Shape.h Point.h Rectangle.h Triangle.h Parser.h Circle.h ShapeCreator.h)
