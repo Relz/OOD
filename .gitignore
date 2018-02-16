@@ -10,21 +10,37 @@
 **/cmake-build-debug/cmake_install.cmake
 **/cmake-build-debug/CMakeCache.txt
 **/cmake-build-debug/Makefile
+**/cmake-build-debug/lw1
+**/cmake-build-debug/lw2
+**/cmake-build-debug/lw3
 # Release
 **/cmake-build-release/CMakeFiles
 **/cmake-build-release/cmake_install.cmake
 **/cmake-build-release/CMakeCache.txt
 **/cmake-build-release/Makefile
+**/cmake-build-release/lw1
+**/cmake-build-release/lw2
+**/cmake-build-release/lw3
 
 # Build files
 # Debug
 **/cmake-build-debug/*.exe
 **/cmake-build-debug/*.exe.stackdump
 **/cmake-build-debug/*.cbp
+# Coverage results
+**/cmake-build-debug/coverage
+# LongInteger
+**/cmake-build-debug/LongInteger
+**/cmake-build-debug/LongIntegerTest
 # Release
 **/cmake-build-release/*.exe
 **/cmake-build-release/*.exe.stackdump
 **/cmake-build-release/*.cbp
+# Coverage results
+**/cmake-build-release/coverage
+# LongInteger
+**/cmake-build-release/LongInteger
+**/cmake-build-release/LongIntegerTest
 
 # Google tests library
 **/googletest

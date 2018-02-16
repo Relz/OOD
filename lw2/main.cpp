@@ -9,7 +9,7 @@ unordered_map<char, function<LongInteger(LongInteger const&, LongInteger const&)
 	{ '+', [](LongInteger const& left, LongInteger const& right) { return left + right; } },
 	{ '-', [](LongInteger const& left, LongInteger const& right) { return left - right; } },
 	{ '*', [](LongInteger const& left, LongInteger const& right) { return left * right; } },
-	{ '/', [](LongInteger const& left, LongInteger const& right) { return left / right; } }
+	{ '/', [](LongInteger const& left, LongInteger const& right) {return left / right; } }
 };
 
 int main()
@@ -24,7 +24,15 @@ int main()
 		LongInteger operand1 = LongInteger::CreateFromString(matches.str(1));
 		char operation = matches.str(2).at(0);
 		LongInteger operand2 = LongInteger::CreateFromString(matches.str(3));
-		cout << operand1 << " " << operation << " " << operand2 << " = " << operationFunction.at(operation)(operand1, operand2) << "\n";
+		try
+		{
+			LongInteger operationResult = operationFunction.at(operation)(operand1, operand2);
+			cout << operand1 << " " << operation << " " << operand2 << " = " <<  operationResult << "\n";
+		}
+		catch (overflow_error & exception)
+		{
+			cout << exception.what() << "\n";
+		}
 	}
 	return EXIT_SUCCESS;
 }
