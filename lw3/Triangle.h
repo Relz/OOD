@@ -27,7 +27,7 @@ public:
 		return GetSide(m_point2, m_point1) + GetSide(m_point3, m_point2) + GetSide(m_point3, m_point1);
 	}
 
-	friend istream& operator>>(istream& is, Triangle* triangle)
+	friend istream& operator>>(istream& is, unique_ptr<Triangle>& triangle)
 	{
 		string point1ArgumentString;
 		string point2ArgumentString;

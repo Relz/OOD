@@ -26,7 +26,7 @@ public:
 		return (abs(m_point1.GetY() - m_point2.GetY()) + abs(m_point1.GetX() - m_point2.GetX())) * 2;
 	}
 
-	friend istream& operator>>(istream& is, Rectangle* rectangle)
+	friend istream& operator>>(istream& is, unique_ptr<Rectangle>& rectangle)
 	{
 		string point1ArgumentString;
 		string point2ArgumentString;

@@ -27,7 +27,7 @@ public:
 		return 2 * M_PI * m_radius;
 	}
 
-	friend istream& operator>>(istream& is, Circle* circle)
+	friend istream& operator>>(istream& is, unique_ptr<Circle>& circle)
 	{
 		string centerPointArgumentString;
 		string radiusArgumentString;
