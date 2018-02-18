@@ -15,4 +15,8 @@ ADD_EXECUTABLE(
 		Creator/ShapeCreator.h
 		Creator/RectangleCreator.h
 		Creator/TriangleCreator.h
-		Creator/CircleCreator.h)
+		Creator/CircleCreator.h
+		LongInteger/Digit.h
+		LongInteger/DigitExtensions.cpp
+		LongInteger/DigitExtensions.h
+		LongInteger/LongInteger.h MathHelper.h)

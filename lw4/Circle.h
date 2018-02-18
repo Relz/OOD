@@ -4,7 +4,6 @@
 #include "Parser.h"
 #include "Point.h"
 #include "Shape.h"
-#include <cmath>
 #include <string>
 
 using namespace std;
@@ -17,14 +16,14 @@ public:
 	{
 	}
 
-	double GetArea() const override
+	LongInteger GetArea() const override
 	{
-		return M_PI * pow(m_radius, 2);
+		return LongInteger::PI * m_radius * m_radius;
 	}
 
-	double GetPerimeter() const override
+	LongInteger GetPerimeter() const override
 	{
-		return 2 * M_PI * m_radius;
+		return LongInteger({Digit::TWO}) * LongInteger::PI * m_radius;
 	}
 
 	friend istream& operator>>(istream& is, unique_ptr<Circle>& circle)
@@ -34,14 +33,14 @@ public:
 		is >> centerPointArgumentString >> radiusArgumentString;
 
 		stringstream(Parser::GetPointString(centerPointArgumentString)) >> circle->m_centerPoint;
-		circle->m_radius = stod(Parser::GetString(radiusArgumentString));
+		circle->m_radius = LongInteger::CreateFromString(Parser::GetString(radiusArgumentString));
 
 		return is;
 	}
 
 private:
 	Point m_centerPoint;
-	double m_radius = 0;
+	LongInteger m_radius;
 };
 
 #endif //LW1_CIRCLE_H

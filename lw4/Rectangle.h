@@ -4,6 +4,7 @@
 #include "Parser.h"
 #include "Point.h"
 #include "Shape.h"
+#include "MathHelper.h"
 #include <string>
 
 using namespace std;
@@ -16,14 +17,18 @@ public:
 	{
 	}
 
-	double GetArea() const override
+	LongInteger GetArea() const override
 	{
-		return abs(m_point1.GetY() - m_point2.GetY()) * abs(m_point1.GetX() - m_point2.GetX());
+		LongInteger xDifference = LongInteger::CalculateDifference(m_point1.GetX(), m_point2.GetX());
+		LongInteger yDifference = LongInteger::CalculateDifference(m_point1.GetY(), m_point2.GetY());
+		return xDifference * yDifference;
 	}
 
-	double GetPerimeter() const override
+	LongInteger GetPerimeter() const override
 	{
-		return (abs(m_point1.GetY() - m_point2.GetY()) + abs(m_point1.GetX() - m_point2.GetX())) * 2;
+		LongInteger xDifference = LongInteger::CalculateDifference(m_point1.GetX(), m_point2.GetX());
+		LongInteger yDifference = LongInteger::CalculateDifference(m_point1.GetY(), m_point2.GetY());
+		return (xDifference + yDifference) * LongInteger({Digit::TWO});
 	}
 
 	friend istream& operator>>(istream& is, unique_ptr<Rectangle>& rectangle)

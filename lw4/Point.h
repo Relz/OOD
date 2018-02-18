@@ -2,28 +2,29 @@
 #define LW1_POINT_H
 
 #include <regex>
+#include "LongInteger/LongInteger.h"
 
 using namespace std;
 
 class Point
 {
 public:
-	int GetX() const
+	LongInteger GetX() const
 	{
 		return m_x;
 	}
 
-	int GetY() const
+	LongInteger GetY() const
 	{
 		return m_y;
 	}
 
-	void SetX(int x)
+	void SetX(LongInteger x)
 	{
 		m_x = x;
 	}
 
-	void SetY(int y)
+	void SetY(LongInteger y)
 	{
 		m_y = y;
 	}
@@ -34,14 +35,14 @@ public:
 		is >> pointString;
 		smatch matches;
 		regex_search(pointString, matches, regex("([0-9]+),([0-9]+)$"));
-		point.m_x = stoi(matches.str(1));
-		point.m_y = stoi(matches.str(2));
+		point.m_x = LongInteger::CreateFromString(matches.str(1));
+		point.m_y = LongInteger::CreateFromString(matches.str(2));
 		return is;
 	}
 
 private:
-	int m_x = 0;
-	int m_y = 0;
+	LongInteger m_x;
+	LongInteger m_y;
 };
 
 #endif //LW1_POINT_H

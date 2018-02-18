@@ -4,7 +4,6 @@
 #include "Parser.h"
 #include "Point.h"
 #include "Shape.h"
-#include <cmath>
 #include <string>
 
 using namespace std;
@@ -17,14 +16,15 @@ public:
 	{
 	}
 
-	double GetArea() const override
+	LongInteger GetArea() const override
 	{
-		return 0.5 * (((m_point1.GetX() - m_point3.GetX()) * (m_point2.GetY() - m_point3.GetY())) - ((m_point2.GetX() - m_point3.GetX()) * (m_point1.GetY() - m_point3.GetY())));
+		LongInteger halfPerimeter = GetPerimeter() / LongInteger({Digit::TWO});
+		return LongInteger::CalculateSquareRoot(halfPerimeter * (halfPerimeter - CalculateSideA()) * (halfPerimeter - CalculateSideB()) * (halfPerimeter - CalculateSideC()));
 	}
 
-	double GetPerimeter() const override
+	LongInteger GetPerimeter() const override
 	{
-		return GetSide(m_point2, m_point1) + GetSide(m_point3, m_point2) + GetSide(m_point3, m_point1);
+		return CalculateSideA() + CalculateSideB() + CalculateSideC();
 	}
 
 	friend istream& operator>>(istream& is, unique_ptr<Triangle>& triangle)
@@ -46,9 +46,27 @@ private:
 	Point m_point2;
 	Point m_point3;
 
-	static double GetSide(Point const& point1, Point const& point2)
+	LongInteger CalculateSideA() const
 	{
-		return sqrt(pow(point2.GetX() - point1.GetX(), 2) + pow(point2.GetY() - point1.GetY(), 2));
+		return CalculateSide(m_point2, m_point1);
+	}
+
+	LongInteger CalculateSideB() const
+	{
+		return CalculateSide(m_point3, m_point2);
+	}
+
+	LongInteger CalculateSideC() const
+	{
+		return CalculateSide(m_point3, m_point1);
+	}
+
+	static LongInteger CalculateSide(Point const& point1, Point const& point2)
+	{
+		LongInteger xDifference = LongInteger::CalculateDifference(point1.GetX(), point2.GetX());
+		LongInteger yDifference = LongInteger::CalculateDifference(point1.GetY(), point2.GetY());
+		LongInteger a = LongInteger::CalculateSquareRoot(xDifference * xDifference + yDifference * yDifference);
+		return LongInteger::CalculateSquareRoot(xDifference * xDifference + yDifference * yDifference);
 	}
 };
 
