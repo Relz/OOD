@@ -1,8 +1,8 @@
 #ifndef LW1_POINT_H
 #define LW1_POINT_H
 
-#include <regex>
 #include "LongInteger/LongInteger.h"
+#include <regex>
 
 using namespace std;
 

@@ -1,10 +1,10 @@
 #ifndef LW1_RECTANGLE_H
 #define LW1_RECTANGLE_H
 
+#include "MathHelper.h"
 #include "Parser.h"
 #include "Point.h"
 #include "Shape.h"
-#include "MathHelper.h"
 #include <string>
 
 using namespace std;
@@ -28,10 +28,10 @@ public:
 	{
 		LongInteger xDifference = LongInteger::CalculateDifference(m_point1.GetX(), m_point2.GetX());
 		LongInteger yDifference = LongInteger::CalculateDifference(m_point1.GetY(), m_point2.GetY());
-		return (xDifference + yDifference) * LongInteger({Digit::TWO});
+		return (xDifference + yDifference) * LongInteger({ Digit::TWO });
 	}
 
-	void Print(Visitor & printer) const
+	void Print(Visitor& printer) const
 	{
 		printer.PrintShape(this);
 	}

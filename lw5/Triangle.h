@@ -18,7 +18,7 @@ public:
 
 	LongInteger GetArea() const override
 	{
-		LongInteger halfPerimeter = GetPerimeter() / LongInteger({Digit::TWO});
+		LongInteger halfPerimeter = GetPerimeter() / LongInteger({ Digit::TWO });
 		return LongInteger::CalculateSquareRoot(halfPerimeter * (halfPerimeter - CalculateSideA()) * (halfPerimeter - CalculateSideB()) * (halfPerimeter - CalculateSideC()));
 	}
 
@@ -27,7 +27,7 @@ public:
 		return CalculateSideA() + CalculateSideB() + CalculateSideC();
 	}
 
-	void Print(Visitor & printer) const
+	void Print(Visitor& printer) const
 	{
 		printer.PrintShape(this);
 	}

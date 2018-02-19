@@ -26,7 +26,7 @@ public:
 		return LongInteger({ Digit::TWO }) * LongInteger::PI * m_radius;
 	}
 
-	void Print(Visitor & printer) const
+	void Print(Visitor& printer) const
 	{
 		printer.PrintShape(this);
 	}
