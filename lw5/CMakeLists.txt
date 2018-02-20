@@ -19,4 +19,4 @@ ADD_EXECUTABLE(
 		LongInteger/Digit.h
 		LongInteger/DigitExtensions.cpp
 		LongInteger/DigitExtensions.h
-		LongInteger/LongInteger.h MathHelper.h Printer.h Visitor.h)
+		LongInteger/LongInteger.h MathHelper.h Printer.h IVisitor.h)

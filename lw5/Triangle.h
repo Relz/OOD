@@ -27,9 +27,9 @@ public:
 		return CalculateSideA() + CalculateSideB() + CalculateSideC();
 	}
 
-	void Print(Visitor& printer) const
+	void Print(IVisitor& printer) const
 	{
-		printer.PrintShape(this);
+		printer.PrintShape(*this);
 	}
 
 	friend istream& operator>>(istream& is, unique_ptr<Triangle>& triangle)

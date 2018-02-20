@@ -26,9 +26,9 @@ public:
 		return LongInteger({ Digit::TWO }) * LongInteger::PI * m_radius;
 	}
 
-	void Print(Visitor& printer) const
+	void Print(IVisitor& printer) const
 	{
-		printer.PrintShape(this);
+		printer.PrintShape(*this);
 	}
 
 	friend istream& operator>>(istream& is, unique_ptr<Circle>& circle)

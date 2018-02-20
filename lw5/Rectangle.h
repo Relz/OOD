@@ -31,9 +31,9 @@ public:
 		return (xDifference + yDifference) * LongInteger({ Digit::TWO });
 	}
 
-	void Print(Visitor& printer) const
+	void Print(IVisitor& printer) const
 	{
-		printer.PrintShape(this);
+		printer.PrintShape(*this);
 	}
 
 	friend istream& operator>>(istream& is, unique_ptr<Rectangle>& rectangle)

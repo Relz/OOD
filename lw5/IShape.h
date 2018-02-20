@@ -1,7 +1,7 @@
 #ifndef LW1_ISHAPE_H
 #define LW1_ISHAPE_H
 
-#include "Visitor.h"
+#include "IVisitor.h"
 #include <string>
 
 using namespace std;
