@@ -15,7 +15,7 @@ public:
 	{
 		if (!m_instance)
 		{
-			m_instance = make_unique<CircleCreator>();
+			CircleCreator::m_instance = unique_ptr<CircleCreator>(new CircleCreator());
 		}
 		return move(m_instance);
 	}
@@ -29,6 +29,8 @@ public:
 
 private:
 	static unique_ptr<CircleCreator> m_instance;
+
+	explicit CircleCreator() = default;
 };
 
 unique_ptr<CircleCreator> CircleCreator::m_instance = nullptr;
