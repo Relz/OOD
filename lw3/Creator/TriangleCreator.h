@@ -15,7 +15,7 @@ public:
 	{
 		if (!m_instance)
 		{
-			m_instance = make_unique<TriangleCreator>();
+			TriangleCreator::m_instance = unique_ptr<TriangleCreator>(new TriangleCreator());
 		}
 		return move(m_instance);
 	}
@@ -29,6 +29,8 @@ public:
 
 private:
 	static unique_ptr<TriangleCreator> m_instance;
+
+	explicit TriangleCreator() = default;
 };
 
 unique_ptr<TriangleCreator> TriangleCreator::m_instance = nullptr;
