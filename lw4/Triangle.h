@@ -65,7 +65,6 @@ private:
 	{
 		LongInteger xDifference = LongInteger::CalculateDifference(point1.GetX(), point2.GetX());
 		LongInteger yDifference = LongInteger::CalculateDifference(point1.GetY(), point2.GetY());
-		LongInteger a = LongInteger::CalculateSquareRoot(xDifference * xDifference + yDifference * yDifference);
 		return LongInteger::CalculateSquareRoot(xDifference * xDifference + yDifference * yDifference);
 	}
 };
