@@ -31,24 +31,26 @@ public:
 
 	static LongInteger CalculateSquareRoot(LongInteger const& longInteger)
 	{
+		LongInteger result = longInteger;
 		LongInteger l;
 		LongInteger r = longInteger;
-		LongInteger res = longInteger;
-		LongInteger oneNumber({ Digit::ONE });
+		LongInteger oneNumber = LongInteger({ Digit::ONE });
+		LongInteger twoNumber = LongInteger({ Digit::TWO });
 		while (l == r || l < r)
 		{
-			LongInteger m = (l + r) / LongInteger({ Digit::TWO });
+			LongInteger m = (l + r) / twoNumber;
 			LongInteger squareM = m * m;
 			if (longInteger == squareM || squareM < longInteger)
 			{
-				res = m;
+				result = m;
 				l = m + oneNumber;
 			}
 			else
+			{
 				r = m - oneNumber;
+			}
 		}
-
-		return res + oneNumber;
+		return result;
 	}
 
 	static string ToString(LongInteger const& longInteger)
@@ -272,6 +274,17 @@ public:
 		return result;
 	}
 
+	static LongInteger RemoveDigitsFromEnd(LongInteger const& longInteger, unsigned int count)
+	{
+		LongInteger result = longInteger;
+		while (count != 0 && !result.m_digits.empty())
+		{
+			result.m_digits.erase(result.m_digits.begin());
+			--count;
+		}
+		return result;
+	}
+
 private:
 	static void RemoveExtraZeros(LongInteger& longInteger)
 	{
@@ -310,6 +323,6 @@ private:
 	}
 };
 
-const LongInteger LongInteger::PI = LongInteger({ Digit::THREE });
+const LongInteger LongInteger::PI = LongInteger({ Digit::THREE, Digit::ONE, Digit::FOUR });
 
 #endif //LW2_LONGINTEGER_H

@@ -18,18 +18,13 @@ public:
 
 	LongInteger GetArea() const override
 	{
-		LongInteger halfPerimeter = GetPerimeter() / LongInteger({ Digit::TWO });
+		LongInteger halfPerimeter = GetPerimeter() / LongInteger({Digit::TWO});
 		return LongInteger::CalculateSquareRoot(halfPerimeter * (halfPerimeter - CalculateSideA()) * (halfPerimeter - CalculateSideB()) * (halfPerimeter - CalculateSideC()));
 	}
 
 	LongInteger GetPerimeter() const override
 	{
 		return CalculateSideA() + CalculateSideB() + CalculateSideC();
-	}
-
-	void Print(IVisitor& printer) const
-	{
-		printer.PrintShape(*this);
 	}
 
 	friend istream& operator>>(istream& is, unique_ptr<Triangle>& triangle)
@@ -70,7 +65,6 @@ private:
 	{
 		LongInteger xDifference = LongInteger::CalculateDifference(point1.GetX(), point2.GetX());
 		LongInteger yDifference = LongInteger::CalculateDifference(point1.GetY(), point2.GetY());
-		LongInteger a = LongInteger::CalculateSquareRoot(xDifference * xDifference + yDifference * yDifference);
 		return LongInteger::CalculateSquareRoot(xDifference * xDifference + yDifference * yDifference);
 	}
 };

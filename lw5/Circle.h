@@ -18,12 +18,12 @@ public:
 
 	LongInteger GetArea() const override
 	{
-		return LongInteger::PI * m_radius * m_radius;
+		return LongInteger::RemoveDigitsFromEnd(LongInteger::PI * m_radius * m_radius, 2);
 	}
 
 	LongInteger GetPerimeter() const override
 	{
-		return LongInteger({ Digit::TWO }) * LongInteger::PI * m_radius;
+		return LongInteger::RemoveDigitsFromEnd(LongInteger({Digit::TWO}) * LongInteger::PI * m_radius, 2);
 	}
 
 	void Print(IVisitor& printer) const
