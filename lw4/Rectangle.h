@@ -17,18 +17,22 @@ public:
 	{
 	}
 
-	LongInteger GetArea() const override
+	void GetArea(LongInteger & result) const override
 	{
-		LongInteger xDifference = LongInteger::CalculateDifference(m_point1.GetX(), m_point2.GetX());
-		LongInteger yDifference = LongInteger::CalculateDifference(m_point1.GetY(), m_point2.GetY());
-		return xDifference * yDifference;
+		LongInteger xDifference;
+		LongInteger::CalculateDifference(m_point1.GetX(), m_point2.GetX(), xDifference);
+		LongInteger yDifference;
+		LongInteger::CalculateDifference(m_point1.GetY(), m_point2.GetY(), yDifference);
+		result = move(xDifference * yDifference);
 	}
 
-	LongInteger GetPerimeter() const override
+	void GetPerimeter(LongInteger & result) const override
 	{
-		LongInteger xDifference = LongInteger::CalculateDifference(m_point1.GetX(), m_point2.GetX());
-		LongInteger yDifference = LongInteger::CalculateDifference(m_point1.GetY(), m_point2.GetY());
-		return (xDifference + yDifference) * LongInteger({Digit::TWO});
+		LongInteger xDifference;
+		LongInteger::CalculateDifference(m_point1.GetX(), m_point2.GetX(), xDifference);
+		LongInteger yDifference;
+		LongInteger::CalculateDifference(m_point1.GetY(), m_point2.GetY(), yDifference);
+		result = move((xDifference + yDifference) * LongInteger({Digit::TWO}));
 	}
 
 	friend istream& operator>>(istream& is, unique_ptr<Rectangle>& rectangle)

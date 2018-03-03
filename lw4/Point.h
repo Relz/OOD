@@ -35,8 +35,8 @@ public:
 		is >> pointString;
 		smatch matches;
 		regex_search(pointString, matches, regex("([0-9]+),([0-9]+)$"));
-		point.m_x = LongInteger::CreateFromString(matches.str(1));
-		point.m_y = LongInteger::CreateFromString(matches.str(2));
+		LongInteger::CreateFromString(matches.str(1), point.m_x);
+		LongInteger::CreateFromString(matches.str(2), point.m_y);
 		return is;
 	}
 

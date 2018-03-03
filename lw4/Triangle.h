@@ -16,15 +16,33 @@ public:
 	{
 	}
 
-	LongInteger GetArea() const override
+	void GetArea(LongInteger & result) const override
 	{
-		LongInteger halfPerimeter = GetPerimeter() / LongInteger({Digit::TWO});
-		return LongInteger::CalculateSquareRoot(halfPerimeter * (halfPerimeter - CalculateSideA()) * (halfPerimeter - CalculateSideB()) * (halfPerimeter - CalculateSideC()));
+		LongInteger sideA;
+		CalculateSideA(sideA);
+
+		LongInteger sideB;
+		CalculateSideB(sideB);
+
+		LongInteger sideC;
+		CalculateSideC(sideC);
+
+		LongInteger halfPerimeter = move((sideA + sideB + sideC) / LongInteger({Digit::TWO}));
+		LongInteger::CalculateSquareRoot(halfPerimeter * (halfPerimeter - sideA) * (halfPerimeter - sideB) * (halfPerimeter - sideC), result);
 	}
 
-	LongInteger GetPerimeter() const override
+	void GetPerimeter(LongInteger & result) const override
 	{
-		return CalculateSideA() + CalculateSideB() + CalculateSideC();
+		LongInteger sideA;
+		CalculateSideA(sideA);
+
+		LongInteger sideB;
+		CalculateSideB(sideB);
+
+		LongInteger sideC;
+		CalculateSideC(sideC);
+
+		result = move(sideA + sideB + sideC);
 	}
 
 	friend istream& operator>>(istream& is, unique_ptr<Triangle>& triangle)
@@ -46,26 +64,28 @@ private:
 	Point m_point2;
 	Point m_point3;
 
-	LongInteger CalculateSideA() const
+	void CalculateSideA(LongInteger & result) const
 	{
-		return CalculateSide(m_point2, m_point1);
+		CalculateSide(m_point2, m_point1, result);
 	}
 
-	LongInteger CalculateSideB() const
+	void CalculateSideB(LongInteger & result) const
 	{
-		return CalculateSide(m_point3, m_point2);
+		CalculateSide(m_point3, m_point2, result);
 	}
 
-	LongInteger CalculateSideC() const
+	void CalculateSideC(LongInteger & result) const
 	{
-		return CalculateSide(m_point3, m_point1);
+		CalculateSide(m_point3, m_point1, result);
 	}
 
-	static LongInteger CalculateSide(Point const& point1, Point const& point2)
+	static void CalculateSide(Point const& point1, Point const& point2, LongInteger & result)
 	{
-		LongInteger xDifference = LongInteger::CalculateDifference(point1.GetX(), point2.GetX());
-		LongInteger yDifference = LongInteger::CalculateDifference(point1.GetY(), point2.GetY());
-		return LongInteger::CalculateSquareRoot(xDifference * xDifference + yDifference * yDifference);
+		LongInteger xDifference;
+		LongInteger::CalculateDifference(point1.GetX(), point2.GetX(), xDifference);
+		LongInteger yDifference;
+		LongInteger::CalculateDifference(point1.GetY(), point2.GetY(), yDifference);
+		LongInteger::CalculateSquareRoot(xDifference * xDifference + yDifference * yDifference, result);
 	}
 };
 

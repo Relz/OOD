@@ -11,56 +11,53 @@ using namespace std;
 class LongInteger
 {
 public:
-	const static LongInteger PI;
+	static LongInteger const PI;
+	static LongInteger const ONE_NUMBER;
+	static LongInteger const TWO_NUMBER;
 
-	static LongInteger CreateFromString(string const& str)
+	static void CreateFromString(string const& str, LongInteger & result)
 	{
-		vector<Digit> digits;
-		for (
-			char ch : str)
+		result.m_digits.clear();
+		for (char ch : str)
 		{
-			digits.emplace_back(DigitExtensions::CreateFromCharacter(ch));
+			result.m_digits.insert(result.m_digits.begin(), DigitExtensions::CreateFromCharacter(ch));
 		}
-		return move(LongInteger(digits));
 	}
 
-	static LongInteger CalculateDifference(LongInteger const& left, LongInteger const& right)
+	static void CalculateDifference(LongInteger const& left, LongInteger const& right, LongInteger & result)
 	{
-		return left > right ? left - right : right - left;
+		result = move(left > right ? left - right : right - left);
 	}
 
-	static LongInteger CalculateSquareRoot(LongInteger const& longInteger)
+	static void CalculateSquareRoot(LongInteger const& longInteger, LongInteger & result)
 	{
-		LongInteger result = longInteger;
+		LongInteger possibleResult = longInteger;
 		LongInteger l;
 		LongInteger r = longInteger;
-		LongInteger oneNumber = LongInteger({ Digit::ONE });
-		LongInteger twoNumber = LongInteger({ Digit::TWO });
 		while (l == r || l < r)
 		{
-			LongInteger m = (l + r) / twoNumber;
-			LongInteger squareM = m * m;
-			if (longInteger == squareM || squareM < longInteger)
+			LongInteger const m = move((l + r) / TWO_NUMBER);
+			LongInteger const squareM = move(m * m);
+			if (squareM == longInteger || squareM < longInteger)
 			{
-				result = m;
-				l = m + oneNumber;
+				possibleResult = move(m);
+				l = move(possibleResult + ONE_NUMBER);
 			}
 			else
 			{
-				r = m - oneNumber;
+				r = move(m - ONE_NUMBER);
 			}
 		}
-		return result;
+		result = move(possibleResult);
 	}
 
-	static string ToString(LongInteger const& longInteger)
+	static void ToString(LongInteger const& longInteger, string & result)
 	{
-		string result;
+		result.clear();
 		for (auto it = longInteger.m_digits.rbegin(); it != longInteger.m_digits.rend(); ++it)
 		{
 			result += DigitExtensions::ToCharacter(*it);
 		}
-		return result;
 	}
 
 	explicit LongInteger(vector<Digit> const& digits = { Digit::ZERO })
@@ -112,23 +109,21 @@ public:
 
 	friend ostream& operator<<(ostream& os, LongInteger const& longInteger)
 	{
-		os << LongInteger::ToString(longInteger);
+		string result;
+		LongInteger::ToString(longInteger, result);
+		os << result;
 		return os;
 	}
 
 	friend bool operator==(LongInteger const& left, LongInteger const& right)
 	{
-		LongInteger a = left;
-		LongInteger b = right;
-		RemoveExtraZeros(a);
-		RemoveExtraZeros(b);
-		if (a.m_digits.size() != b.m_digits.size())
+		if (left.m_digits.size() != right.m_digits.size())
 		{
 			return false;
 		}
-		for (size_t i = a.m_digits.size() - 1; i != SIZE_MAX; --i)
+		for (size_t i = left.m_digits.size() - 1; i != SIZE_MAX; --i)
 		{
-			if (a.Get(i) != b.Get(i))
+			if (left.Get(i) != right.Get(i))
 			{
 				return false;
 			}
@@ -143,20 +138,16 @@ public:
 
 	friend bool operator<(LongInteger const& left, LongInteger const& right)
 	{
-		LongInteger a = left;
-		LongInteger b = right;
-		RemoveExtraZeros(a);
-		RemoveExtraZeros(b);
-		if (a.m_digits.size() != b.m_digits.size())
+		if (left.m_digits.size() != right.m_digits.size())
 		{
-			return a.m_digits.size() < b.m_digits.size();
+			return left.m_digits.size() < right.m_digits.size();
 		}
 		for (
-			size_t i = a.m_digits.size() - 1; i != SIZE_MAX; --i)
+			size_t i = left.m_digits.size() - 1; i != SIZE_MAX; --i)
 		{
-			if (a.Get(i) != b.Get(i))
+			if (left.Get(i) != right.Get(i))
 			{
-				return a.Get(i) < b.Get(i);
+				return left.Get(i) < right.Get(i);
 			}
 		}
 		return false;
@@ -177,7 +168,7 @@ public:
 		return left > right || left == right;
 	}
 
-	friend const LongInteger operator+(LongInteger const& left, LongInteger const& right)
+	friend LongInteger operator+(LongInteger const& left, LongInteger const& right)
 	{
 		LongInteger result;
 		result.m_digits.resize(max(left.m_digits.size(), right.m_digits.size()));
@@ -191,10 +182,10 @@ public:
 		{
 			result.Set(result.m_digits.size(), carried);
 		}
-		return result;
+		return move(result);
 	}
 
-	friend const LongInteger operator-(LongInteger const& left, LongInteger const& right)
+	friend LongInteger operator-(LongInteger const& left, LongInteger const& right)
 	{
 		LongInteger result;
 		LongInteger subtrahend;
@@ -215,10 +206,10 @@ public:
 			result.Set(i, DigitExtensions::Subtract(result.Get(i), subtrahend.Get(i), borrowed));
 		}
 		RemoveExtraZeros(result);
-		return result;
+		return move(result);
 	}
 
-	friend const LongInteger operator*(LongInteger const& left, LongInteger const& right)
+	friend LongInteger operator*(LongInteger const& left, LongInteger const& right)
 	{
 		vector<LongInteger> summands(right.m_digits.size());
 		for (size_t i = 0; i < right.m_digits.size(); ++i)
@@ -243,10 +234,11 @@ public:
 		{
 			result = result + summand;
 		}
-		return result;
+		RemoveExtraZeros(result);
+		return move(result);
 	}
 
-	friend const LongInteger operator/(LongInteger const& left, LongInteger const& right)
+	friend LongInteger operator/(LongInteger const& left, LongInteger const& right)
 	{
 		if (right == LongInteger())
 		{
@@ -271,22 +263,20 @@ public:
 			tmp2 = tmp2 + right * previousMultiplier;
 			result = result + previousMultiplier;
 		}
-		return result;
+		return move(result);
 	}
 
-	static LongInteger RemoveDigitsFromEnd(LongInteger const& longInteger, unsigned int count)
+	static void RemoveDigitsFromEnd(LongInteger & longInteger, unsigned int count)
 	{
-		LongInteger result = longInteger;
-		while (count != 0 && !result.m_digits.empty())
+		while (count != 0 && !longInteger.m_digits.empty())
 		{
-			result.m_digits.erase(result.m_digits.begin());
+			longInteger.m_digits.erase(longInteger.m_digits.begin());
 			--count;
 		}
-		return result;
 	}
 
 private:
-	static void RemoveExtraZeros(LongInteger& longInteger)
+	static void RemoveExtraZeros(LongInteger & longInteger)
 	{
 		size_t actualSize = longInteger.m_digits.size();
 		bool found = false;
@@ -302,6 +292,10 @@ private:
 		if (!found)
 		{
 			actualSize = 0;
+		}
+		if (actualSize == 0)
+		{
+			actualSize = 1;
 		}
 		longInteger.m_digits.resize(actualSize);
 	}
@@ -323,6 +317,8 @@ private:
 	}
 };
 
-const LongInteger LongInteger::PI = LongInteger({ Digit::THREE, Digit::ONE, Digit::FOUR });
+LongInteger const LongInteger::PI = LongInteger({ Digit::THREE, Digit::ONE, Digit::FOUR });
+LongInteger const LongInteger::ONE_NUMBER = LongInteger({ Digit::ONE });
+LongInteger const LongInteger::TWO_NUMBER = LongInteger({ Digit::TWO });
 
 #endif //LW2_LONGINTEGER_H
