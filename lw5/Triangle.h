@@ -27,6 +27,11 @@ public:
 		return CalculateSideA() + CalculateSideB() + CalculateSideC();
 	}
 
+	void Accept(IVisitor & printer) const
+	{
+		printer.PrintShape(*this);
+	}
+
 	friend istream& operator>>(istream& is, unique_ptr<Triangle>& triangle)
 	{
 		string point1ArgumentString;

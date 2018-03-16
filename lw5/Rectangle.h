@@ -31,7 +31,7 @@ public:
 		return (xDifference + yDifference) * LongInteger({ Digit::TWO });
 	}
 
-	void Print(IVisitor& printer) const
+	void Accept(IVisitor & printer) const
 	{
 		printer.PrintShape(*this);
 	}
