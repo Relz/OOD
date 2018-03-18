@@ -26,7 +26,7 @@ public:
 		return LongInteger::RemoveDigitsFromEnd(LongInteger({Digit::TWO}) * LongInteger::PI * m_radius, 2);
 	}
 
-	void Print(IVisitor& printer) const
+	void Accept(IVisitor& printer) const
 	{
 		printer.PrintShape(*this);
 	}

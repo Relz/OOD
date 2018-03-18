@@ -47,7 +47,7 @@ int main()
 		unique_ptr<IShape> shape = shapeCreator->Create(stringStream);
 		if (shape)
 		{
-			shape->Print(printer);
+			shape->Accept(printer);
 		}
 	}
 

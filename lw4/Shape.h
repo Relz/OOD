@@ -14,13 +14,21 @@ public:
 	{
 	}
 
-	LongInteger GetArea() const override = 0;
+	void GetArea(LongInteger & result) const override = 0;
 
-	LongInteger GetPerimeter() const override = 0;
+	void GetPerimeter(LongInteger & result) const override = 0;
 
 	std::string ToString() const final
 	{
-		return m_shapeName + ":" + " P=" + LongInteger::ToString(GetPerimeter()) + ";" + " S=" + LongInteger::ToString(GetArea());
+		LongInteger perimeter;
+		GetPerimeter(perimeter);
+		LongInteger area;
+		GetArea(area);
+		string perimeterString;
+		LongInteger::ToString(perimeter, perimeterString);
+		string areaString;
+		LongInteger::ToString(area, areaString);
+		return m_shapeName + ":" + " P=" + perimeterString + ";" + " S=" + areaString;
 	}
 
 private:

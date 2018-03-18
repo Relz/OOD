@@ -16,14 +16,16 @@ public:
 	{
 	}
 
-	LongInteger GetArea() const override
+	void GetArea(LongInteger & result) const override
 	{
-		return LongInteger::RemoveDigitsFromEnd(LongInteger::PI * m_radius * m_radius, 2);
+		result = LongInteger::PI * m_radius * m_radius;
+		LongInteger::RemoveDigitsFromEnd(result, 2);
 	}
 
-	LongInteger GetPerimeter() const override
+	void GetPerimeter(LongInteger & result) const override
 	{
-		return LongInteger::RemoveDigitsFromEnd(LongInteger({Digit::TWO}) * LongInteger::PI * m_radius, 2);
+		result = LongInteger({Digit::TWO}) * LongInteger::PI * m_radius;
+		LongInteger::RemoveDigitsFromEnd(result, 2);
 	}
 
 	friend istream& operator>>(istream& is, unique_ptr<Circle>& circle)
@@ -33,7 +35,7 @@ public:
 		is >> centerPointArgumentString >> radiusArgumentString;
 
 		stringstream(Parser::GetPointString(centerPointArgumentString)) >> circle->m_centerPoint;
-		circle->m_radius = LongInteger::CreateFromString(Parser::GetString(radiusArgumentString));
+		LongInteger::CreateFromString(Parser::GetString(radiusArgumentString), circle->m_radius);
 
 		return is;
 	}

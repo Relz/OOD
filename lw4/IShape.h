@@ -8,8 +8,8 @@ using namespace std;
 class IShape
 {
 public:
-	virtual LongInteger GetArea() const = 0;
-	virtual LongInteger GetPerimeter() const = 0;
+	virtual void GetArea(LongInteger & result) const = 0;
+	virtual void GetPerimeter(LongInteger & result) const = 0;
 	virtual string ToString() const = 0;
 };
 
